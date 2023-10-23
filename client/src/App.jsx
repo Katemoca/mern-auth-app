@@ -4,10 +4,13 @@ import About from "./views/About";
 import SignIn from "./views/SignIn";
 import SignUp from "./views/SignUp";
 import Profile from "./views/Profile";
+import Header from "./components/Header.jsx/Header";
 
 const App = () => {
   return (
     <BrowserRouter>
+      {/* Header */}
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
