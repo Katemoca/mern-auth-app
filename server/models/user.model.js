@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     password: {
@@ -20,8 +20,10 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.Schema("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
-export default User;
+module.exports = {
+  User,
+};
 
 // Documentation = https://mongoosejs.com/docs/models.html

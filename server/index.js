@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const { MONGO } = process.env;
+const userRouter = require("./routes/userRoutes/userRoutes");
 
 mongoose
   .connect(MONGO)
@@ -16,3 +17,5 @@ const PORT = 3000;
 app.listen(PORT, () => {
   console.log("Server listening on port " + PORT);
 });
+
+app.use("/server/user", userRouter);
