@@ -27,3 +27,6 @@ dist-ssr
 # dotenv environment variables file
 .env
 
+# for folder customization
+desktop.ini
+
