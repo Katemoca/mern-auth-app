@@ -1,10 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const { MONGO, PORT } = process.env;
+const { MONGO } = process.env;
 const userRouter = require("./routes/userRoutes/userRoutes");
 const authRouter = require("./routes/authRoutes/authRoutes");
-
+const PORT = 3000;
 mongoose
   .connect(MONGO)
   .then(() => {
@@ -13,6 +13,7 @@ mongoose
   .catch((err) => console.log(err));
 
 const app = express();
+
 app.use(express.json()).listen(PORT, () => {
   console.log("Server listening on port " + PORT);
 });
