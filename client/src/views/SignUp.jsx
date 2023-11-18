@@ -47,40 +47,46 @@ const SignUp = () => {
   };
 
   return (
-    <div className="mx-auto p-3 max-w-lg">
-      <h1 className="text-3xl text-center font-semibold my-7">Sign Up</h1>
-      <form className="flex gap-4 flex-col" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="username"
-          placeholder="Username"
-          className="bg-slate-100 p-3 rounded-lg"
-          onChange={handleChange}></input>
-        <input
-          type="email"
-          id="email"
-          placeholder="Email"
-          className="bg-slate-100 p-3 rounded-lg"
-          onChange={handleChange}></input>
-        <input
-          type="password"
-          id="password"
-          placeholder="Password"
-          className="bg-slate-100 p-3 rounded-lg"
-          onChange={handleChange}></input>
-        <button
-          disabled={loading}
-          className="bg-neutral-700 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-40">
-          {loading ? "Sending information..." : "Sign Up"}
-        </button>
-      </form>
-      <div className="flex gap-2 mt-5">
-        <p>I already have an account</p>
-        <Link to="/sign-in">
-          <span className="text-blue-500">Sign In</span>
-        </Link>
+    <div className="bg-cyan-500 h-screen">
+      <div className="mx-auto p-3 max-w-lg">
+        <h1 className="text-3xl text-center font-semibold my-7 text-white">
+          Sign Up
+        </h1>
+        <form className="flex gap-4 flex-col" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            className="bg-slate-100 p-3 rounded-lg shadow-md shadow-black"
+            onChange={handleChange}></input>
+          <input
+            type="email"
+            id="email"
+            placeholder="Email"
+            className="bg-slate-100 p-3 rounded-lg shadow-md shadow-black"
+            onChange={handleChange}></input>
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            className="bg-slate-100 p-3 rounded-lg shadow-md shadow-black"
+            onChange={handleChange}></input>
+          <button
+            disabled={loading}
+            className="bg-indigo-500 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-40 shadow-md shadow-black">
+            {loading ? "Sending information..." : "Sign Up"}
+          </button>
+        </form>
+        <div className="flex gap-2 mt-5">
+          <p className="text-zinc-50">I already have an account</p>
+          <Link to="/sign-in">
+            <span className="text-indigo-500 hover:text-white">Sign In</span>
+          </Link>
+        </div>
+        <p className="text-indigo-500 mt-5">
+          {error && "Something went wrong"}
+        </p>
       </div>
-      <p className="text-red-700 mt-5">{error && "Something went wrong"}</p>
     </div>
   );
 };
