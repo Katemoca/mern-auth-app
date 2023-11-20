@@ -30,10 +30,15 @@ const signIn = async (req, res, next) => {
     if (!validPassword) return next(errorHandler(401, "wrong credentials"));
     //Now here we add a token to the cookie of the browser with Jason Web Token (JWT)
     const token = jwt.sign({ id: validUser._id }, JWT_SECRET);
+    //Then we get only the password by separating it from the rest (password, ...rest)
+    const { password: hashedPassword, ...rest } = validUser._doc;
+    // We add an expiry date or time for this access
+    const expiryDate = new Date(Date.now() + 3600000); // 1 hour
+
     res
-      .cookie("access_token", token, { httpOnly: true })
+      .cookie("access_token", token, { httpOnly: true, expires: expiryDate })
       .status(200)
-      .json(validUser);
+      .json(rest); // We send the info without the password
   } catch (error) {
     next(error);
   }
