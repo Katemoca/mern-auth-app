@@ -29,7 +29,9 @@ const signIn = async (req, res, next) => {
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) return next(errorHandler(401, "wrong credentials"));
     //Now here we add a token to the cookie of the browser with Jason Web Token (JWT)
-    const token = jwt.sign({ id: validUser._id }, JWT_SECRET);
+    const token = jwt.sign({ id: validUser._id }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
     //Then we get only the password by separating it from the rest (password, ...rest)
     const { password: hashedPassword, ...rest } = validUser._doc;
     // We add an expiry date or time for this access
