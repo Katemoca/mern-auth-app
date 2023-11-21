@@ -48,9 +48,9 @@ const SignUp = () => {
   };
 
   return (
-    <div className="bg-cyan-500 h-screen">
-      <div className="mx-auto p-3 max-w-lg">
-        <h1 className="text-3xl text-center font-semibold my-7 text-white">
+    <div className="bg-gradient-to-r from-indigo-300 from-10% via-sky-300 via-30% to-purple-300 to-100% h-screen pt-8">
+      <div className="mx-auto p-8 max-w-lg bg-black rounded-3xl">
+        <h1 className="text-3xl text-center font-semibold my-4 text-white">
           Sign Up
         </h1>
         <form className="flex gap-4 flex-col" onSubmit={handleSubmit}>
