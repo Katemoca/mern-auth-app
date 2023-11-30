@@ -1,8 +1,8 @@
 import { configureStore } from "@reduxjs/toolkit";
-import useReducer from "../userSlice/userSlice";
+import userReducer from "../userSlice/userSlice";
 
 export const store = configureStore({
-  reducer: { user: useReducer },
+  reducer: { user: userReducer },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false, // This is to allow non-serializable values like thunk functions

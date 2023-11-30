@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+// We use the actions created in the userSlice file
+import {
+  signInStart,
+  signInSuccess,
+  signInFailure,
+} from "../redux/userSlice/userSlice";
+
+// To dispatch the actions we need to use useDispatch()
+import { useDispatch, useSelector } from "react-redux";
+
 const SignUp = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const { error, loading } = useSelector((state) => state.user);
 
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -21,8 +31,7 @@ const SignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      setLoading(true);
-      setError(false);
+      dispatch(signInStart());
       const response = await fetch("/server/auth/sign-in", {
         method: "POST",
         headers: {
@@ -31,18 +40,15 @@ const SignUp = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      setLoading(false);
-      // setError(false); // This is because sometimes we ave an error from the previous request so we want to remove that as well.
-      // We have to check if the data of the response has an error before setting the setError
+      dispatch(signInSuccess(data));
       if (data.success === false) {
-        setError(true);
+        dispatch(signInFailure(data));
         return;
       }
       setFormData({ email: "", password: "" });
       navigate("/");
     } catch (error) {
-      setLoading(false);
-      setError(true);
+      dispatch(signInFailure(error));
     }
   };
 
@@ -91,8 +97,8 @@ const SignUp = () => {
             <span className="text-indigo-500 hover:text-white">Sign Up</span>
           </Link>
         </div>
-        <p className="text-indigo-500 mt-5">
-          {error && "Something went wrong"}
+        <p className="text-white mt-5">
+          {error ? error.message || "Something went wrong" : ""}
         </p>
       </div>
     </div>
