@@ -31,7 +31,7 @@ const SignUp = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      dispatch(signInStart());
+      dispatch(signInStart()); // this has the loading in true
       const response = await fetch("/server/auth/sign-in", {
         method: "POST",
         headers: {
@@ -40,11 +40,11 @@ const SignUp = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
-      dispatch(signInSuccess(data));
       if (data.success === false) {
         dispatch(signInFailure(data));
         return;
       }
+      dispatch(signInSuccess(data));
       setFormData({ email: "", password: "" });
       navigate("/");
     } catch (error) {
