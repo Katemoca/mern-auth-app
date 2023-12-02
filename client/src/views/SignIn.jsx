@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 // We use the actions created in the userSlice file
 import {
@@ -82,6 +83,7 @@ const SignUp = () => {
           <div className="flex gap-2 mt-1 text-white pl-80">
             <p>{`Forgot Password?`}</p>
           </div>
+          <OAuth />
         </form>
         <div className="flex justify-center items-center mt-4">
           <hr className="border-gray-300 w-1/4"></hr>
