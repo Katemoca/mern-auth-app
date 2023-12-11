@@ -72,9 +72,6 @@ const SignUp = () => {
             placeholder="Password"
             className="bg-slate-100 p-3 rounded-lg shadow-md shadow-black"
             onChange={handleChange}></input>
-          <div className="flex gap-2 mt-1 text-white">
-            <p>{`Remember me?`}</p>
-          </div>
           <button
             disabled={loading}
             className="bg-indigo-500 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-40 shadow-md shadow-black">
@@ -83,13 +80,13 @@ const SignUp = () => {
           <div className="flex gap-2 mt-1 text-white pl-80">
             <p>{`Forgot Password?`}</p>
           </div>
+          <div className="flex justify-center items-center mt-4">
+            <hr className="border-gray-300 w-1/4"></hr>
+            <p className="mx-4 text-gray-300">OR</p>
+            <hr className="border-gray-300 w-1/4"></hr>
+          </div>
           <OAuth />
         </form>
-        <div className="flex justify-center items-center mt-4">
-          <hr className="border-gray-300 w-1/4"></hr>
-          <p className="mx-4 text-gray-300">OR</p>
-          <hr className="border-gray-300 w-1/4"></hr>
-        </div>
         <div>
           <br className="text-white"></br>
         </div>

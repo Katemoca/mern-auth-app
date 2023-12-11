@@ -12,8 +12,7 @@ const firebaseConfig = {
   messagingSenderId: "93213737260",
   appId: "1:93213737260:web:792b745693425a5a336c89",
 };
-
-console.log(import.meta.env.VITE_FIREBASE_API_KEY);
+// console.log(import.meta.env.VITE_FIREBASE_API_KEY);
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);

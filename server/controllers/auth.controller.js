@@ -46,7 +46,20 @@ const signIn = async (req, res, next) => {
   }
 };
 
+export const google = async (req, res, next) => {
+  try {
+    const user = await User.findOne({ email: req.body.email });
+    if (user) {
+      const token = jwt.sign({ id: user._id }, JWT_SECRET);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   signUp,
   signIn,
 };
+
+// Repository: https://github.com/sahandghavidel/mern-auth/blob/main/api/controllers/auth.controller.js
