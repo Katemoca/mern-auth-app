@@ -11,7 +11,7 @@ const OAuth = () => {
       const auth = getAuth(app);
 
       const result = await signInWithPopup(auth, provider);
-      console.log(result); // We need three things the username(displayName), the url of the image(photoURL), and the email(email)
+      // console.log(result); // We need three things the username(displayName), the url of the image(photoURL), and the email(email)
       const res = fetch("/server/auth/google", {
         method: "POST",
         headers: {
