@@ -46,13 +46,69 @@ const signIn = async (req, res, next) => {
   }
 };
 
-export const google = async (req, res, next) => {
+const google = async (req, res, next) => {
   try {
+    // Check if a user with the provided email already exists in the database
     const user = await User.findOne({ email: req.body.email });
+
     if (user) {
+      // If user exists, generate a JWT token for authentication
       const token = jwt.sign({ id: user._id }, JWT_SECRET);
+
+      // Extract sensitive information from the user object while excluding the password
+      const { password: hashedPassword, ...rest } = user._doc;
+
+      // Set an expiry date for the token (1 hour in this case)
+      const expiryDate = new Date(Date.now() + 3600000);
+
+      // Set the token as an HTTP-only cookie and send user information in the response
+      res
+        .cookie("access_token", token, {
+          httpOnly: true,
+          expires: expiryDate,
+        })
+        .status(200)
+        .json(rest);
+    } else {
+      // If user does not exist, generate a random password and hash it
+      const generatedPassword =
+        Math.random().toString(36).slice(-8) +
+        Math.random().toString(36).slice(-8);
+      const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
+      // Create a new user with the provided information
+      const newUser = new User({
+        username:
+          req.body.name.split(" ").join("").toLowerCase() +
+          Math.random().toString(36).slice(-8), // We add random numbers and strings at the end of the name = mariamuñoz23JHK234
+        email: req.body.email,
+        password: hashedPassword,
+        profilePicture: req.body.photo,
+      });
+
+      // Save the new user to the database
+      await newUser.save();
+
+      // Generate a JWT token for the new user
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
+
+      // Extract sensitive information from the new user object while excluding the password
+      const { password: hashedPassword2, ...rest } = newUser._doc;
+
+      // Set an expiry date for the token (1 hour in this case)
+      const expiryDate = new Date(Date.now() + 3600000);
+
+      // Set the token as an HTTP-only cookie and send user information in the response
+      res
+        .cookie("access_token", token, {
+          httpOnly: true,
+          expires: expiryDate,
+        })
+        .status(200)
+        .json(rest);
     }
   } catch (error) {
+    // Handle any errors that occur during the process
     next(error);
   }
 };
@@ -60,6 +116,5 @@ export const google = async (req, res, next) => {
 module.exports = {
   signUp,
   signIn,
+  google,
 };
-
-// Repository: https://github.com/sahandghavidel/mern-auth/blob/main/api/controllers/auth.controller.js
