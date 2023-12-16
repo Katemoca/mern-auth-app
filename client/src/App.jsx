@@ -19,6 +19,7 @@ const App = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/profile" element={<Profile />} />
+          {/* This is the conrrespondent "Outlet" component that we have to use in the PrivateRoute component */}
         </Route>
       </Routes>
     </BrowserRouter>

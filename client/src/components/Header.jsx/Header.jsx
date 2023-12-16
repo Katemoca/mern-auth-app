@@ -19,12 +19,7 @@ const Header = () => {
             <li>About</li>
           </Link>
 
-          <Link to={"/sign-in"}>
-            <li>Sign In</li>
-          </Link>
-
           {/* We need to render the profile picture that we get from the backend once the user is resgistered */}
-
           <Link to={"/profile"}>
             {currentUser ? (
               <img
