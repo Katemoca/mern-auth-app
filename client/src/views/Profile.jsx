@@ -14,7 +14,7 @@ function Profile() {
   const [imagePercent, setImagePercent] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [formData, setFormData] = useState({});
-  console.log(formData);
+  // console.log(formData); // This is to check if the url of the img is retrived from the storage and stored in the local state.
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -61,17 +61,33 @@ function Profile() {
         />
         {/* THIS IS THE CONFIGURATION OF THE FIREBASE STORAGE OF OUR PROJECT: This means that the user can only upload files that are images and have a size less than 2MB.
 
-      firebase storage rules:  
+      firebase storage rules:  :
       allow read;
       allow write: if
       request.resource.size < 2 * 1024 * 1024 &&
       request.resource.contentType.matches('image/.*') */}
         <img
-          src={currentUser.profilePicture}
+          src={formData.profilePicture || currentUser.profilePicture} // With this || we can have the uploaded img shown otherwise the original will stay there.
           alt="profile"
           className="h-24 w-24 self-center cursor-pointer rounded-full object-cover mt-2"
           onClick={() => fileRef.current.click()}
         />
+        {/* This is to show the error, the uploading progress and the completion of the img upload */}
+        <p className="text-sm self-center">
+          {imageError ? (
+            <span className="text-red-700">
+              Error uploading image (file size must be less than 2 MB)
+            </span>
+          ) : imagePercent > 0 && imagePercent < 100 ? (
+            <span className="text-slate-700">
+              {`Uploading: ${imagePercent} %`}
+            </span>
+          ) : imagePercent === 100 ? (
+            <span className="text-green-700">Image uploaded succesfully</span>
+          ) : (
+            ""
+          )}
+        </p>
         <input
           defaultValue={currentUser.username}
           type="text"
