@@ -4,6 +4,7 @@ require("dotenv").config();
 const { MONGO } = process.env;
 const userRouter = require("./routes/userRoutes/userRoutes");
 const authRouter = require("./routes/authRoutes/authRoutes");
+const cookieParser = require("cookie-parser");
 const PORT = 3000;
 mongoose
   .connect(MONGO)
@@ -17,6 +18,8 @@ const app = express();
 app.use(express.json()).listen(PORT, () => {
   console.log("Server listening on port " + PORT);
 });
+
+app.use(cookieParser());
 
 app.use("/server/user", userRouter);
 app.use("/server/auth", authRouter);
