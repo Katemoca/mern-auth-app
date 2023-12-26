@@ -48,10 +48,21 @@ function Profile() {
     );
   };
 
+  // To handle the event of updating the info from the inputs of the form
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.id]: event.target.value });
+  };
+  console.log(formData);
+
+  // To submit the new info of the profile from the inputs
+  const handleSubmit = (event) => {
+    event.preventDefault();
+  };
+
   return (
     <div className="p-3 max-w-lg mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <input
           type="file"
           ref={fileRef}
@@ -94,6 +105,7 @@ function Profile() {
           placeholder="Username"
           id="username"
           className="bg-slate-100 rounded-lg p-3"
+          onChange={handleChange}
         />
         <input
           defaultValue={currentUser.email}
@@ -101,12 +113,14 @@ function Profile() {
           placeholder="Email"
           id="email"
           className="bg-slate-100 rounded-lg p-3"
+          onChange={handleChange}
         />
         <input
           type="password"
           placeholder="Password"
           id="password"
           className="bg-slate-100 rounded-lg p-3"
+          onChange={handleChange}
         />
         <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
           Update
