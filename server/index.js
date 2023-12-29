@@ -1,11 +1,12 @@
 const express = require("express");
 const mongoose = require("mongoose");
-require("dotenv").config();
-const { MONGO } = process.env;
 const userRouter = require("./routes/userRoutes/userRoutes");
 const authRouter = require("./routes/authRoutes/authRoutes");
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
+const { MONGO } = process.env;
 const PORT = 3000;
+
 mongoose
   .connect(MONGO)
   .then(() => {
@@ -19,7 +20,7 @@ app.use(express.json()).listen(PORT, () => {
   console.log("Server listening on port " + PORT);
 });
 
-app.use(cookieParser());
+app.use(cookieParser()); // This is necessary to use the verifyUser middleware as we need to parse the cookie for the JWT token which is called "access_token"
 
 app.use("/server/user", userRouter);
 app.use("/server/auth", authRouter);

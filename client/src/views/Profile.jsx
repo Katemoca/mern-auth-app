@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import {
   getDownloadURL,
@@ -7,16 +7,23 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { app } from "../firebase";
+import {
+  updateUserStart,
+  updateUserSuccess,
+  updateUserFailure,
+} from "../redux/userSlice/userSlice";
 
 function Profile() {
+  const dispatch = useDispatch();
   const fileRef = useRef(null);
   const [image, setImage] = useState(undefined);
   const [imagePercent, setImagePercent] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [formData, setFormData] = useState({});
   // console.log(formData); // This is to check if the url of the img is retrived from the storage and stored in the local state.
+  const [updateSuccess, setUpdateSuccess] = useState(false);
 
-  const { currentUser } = useSelector((state) => state.user);
+  const { currentUser, loading, error } = useSelector((state) => state.user);
 
   // To upload the image that we have chosen from our files
   useEffect(() => {
@@ -25,6 +32,7 @@ function Profile() {
     }
   }, [image]);
 
+  // To upload the new image
   const handleImageUpload = async (image) => {
     const storage = getStorage(app); // We create the storage
     const fileName = new Date().getTime() + image.name; // We create an unique name for the uploaded image
@@ -52,11 +60,32 @@ function Profile() {
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.id]: event.target.value });
   };
-  console.log(formData);
+  // console.log(formData);
 
   // To submit the new info of the profile from the inputs
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    dispatch(updateUserStart());
+    try {
+      const response = await fetch(`/server/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+      // console.log(data);
+      if (data.success === false) {
+        dispatch(updateUserFailure(data));
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+      setUpdateSuccess(true);
+    } catch (error) {
+      console.log("error", error);
+      dispatch(updateUserFailure(error));
+    }
   };
 
   return (
@@ -123,13 +152,17 @@ function Profile() {
           onChange={handleChange}
         />
         <button className="bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-80">
-          Update
+          {loading ? "Loading ..." : "UPDATE"}
         </button>
       </form>
       <div className="flex justify-between mt-5">
         <span className="text-red-700 cursor-pointer">Delete Account</span>
         <span className="text-red-700 cursor-pointer">Sign Out</span>
       </div>
+      <p className="text-red-700 mt-5">{error && "something went wrong"}</p>
+      <p className="text-green-700 mt-5">
+        {updateSuccess && "User was updated successfully!"}
+      </p>
     </div>
   );
 }

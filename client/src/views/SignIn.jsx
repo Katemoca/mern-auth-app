@@ -12,7 +12,7 @@ import {
 // To dispatch the actions we need to use useDispatch()
 import { useDispatch, useSelector } from "react-redux";
 
-const SignUp = () => {
+const SignIn = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -46,7 +46,6 @@ const SignUp = () => {
         return;
       }
       dispatch(signInSuccess(data));
-      setFormData({ email: "", password: "" });
       navigate("/");
     } catch (error) {
       dispatch(signInFailure(error));
@@ -77,9 +76,9 @@ const SignUp = () => {
             className="bg-indigo-500 text-white p-3 rounded-lg uppercase hover:opacity-90 disabled:opacity-40 shadow-md shadow-black">
             {loading ? "Sending information..." : "Sign In"}
           </button>
-          <div className="flex gap-2 mt-1 text-white pl-80">
+          {/* <div className="flex gap-2 mt-1 text-white pl-80">
             <p>{`Forgot Password?`}</p>
-          </div>
+          </div> */}
           <div className="flex justify-center items-center mt-4">
             <hr className="border-gray-300 w-1/4"></hr>
             <p className="mx-4 text-gray-300">OR</p>
@@ -104,4 +103,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

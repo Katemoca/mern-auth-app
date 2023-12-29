@@ -11,7 +11,7 @@ const verifyToken = (req, res, next) => {
     if (err) return next(errorHandler(403, "Token is not valid"));
 
     req.user = user;
-    next();
+    next(); // To go to the next middleware
   });
 };
 
