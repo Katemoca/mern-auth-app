@@ -1,9 +1,9 @@
 const User = require("../models/user.model");
-require("dotenv").config;
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const { JWT_SECRET } = process.env;
 const bcryptjs = require("bcryptjs");
 const { errorHandler } = require("../utils/error");
-const jwt = require("jsonwebtoken");
-const { JWT_SECRET } = process.env;
 
 const signUp = async (req, res, next) => {
   const { username, email, password } = req.body;
