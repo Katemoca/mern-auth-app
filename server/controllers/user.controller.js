@@ -10,6 +10,8 @@ const test = (req, res) => {
 
 // update user
 
+// The 401 (Unauthorized) status code indicates that the request has not been applied because it lacks valid authentication credentials for the target resource.
+
 const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id) {
     return next(errorHandler(401, "You can only update your own account!"));
